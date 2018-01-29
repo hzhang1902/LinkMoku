@@ -2,13 +2,14 @@ import Evals_Heuristics
 
 """engine of Minimax algorithm with alpha-beta pruning"""
 
-class Minimax:
+class Minimax(object):
     
-    def _init_(self, gameTree):
+    def __init__(self, gameTree):
         self.gameTree = gameTree
         self.root = gameTree.root
         self.currentNode = None 
         self.successors = []
+        print "Successfully created minimax gameTree."
         return
 
 
@@ -58,7 +59,9 @@ class Minimax:
             min_value = min(min_value, self.max_value(state))
         return min_value
 
+    # def getSuccessor in heuristic
 
+    
     def isTerminal(self, node):
         assert node is not None
         return len(node.children) == 0
