@@ -1,6 +1,6 @@
 """evaluation function definitions and heuristics"""
 
-# current_board = []
+current_board = []
 BOARD_SIZE = 15
 
 """set the entire board to 0"""
