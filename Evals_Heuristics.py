@@ -3,23 +3,11 @@
 current_board = []
 BOARD_SIZE = 15
 
-<<<<<<< HEAD
-"""set the entire board to 0"""
-def initialize_board(current_board):
-    index_x = 0
-    while index_x < BOARD_SIZE:
-        index_y = 0
-        while index_y < BOARD_SIZE:
-            current_board[index_x][index_y] = 0
-            index_y += 1
-        index_x += 1
-=======
 
 # set the entire board to 0
 def initialize_board():
     current_board = [0]*225
     return current_board
->>>>>>> master
 
 
 # get next level of empty nodes
