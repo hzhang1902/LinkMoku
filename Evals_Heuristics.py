@@ -53,4 +53,3 @@ class Node:
         self.X = x
         self.Y = y
         self.player = player
->>>>>>> master
