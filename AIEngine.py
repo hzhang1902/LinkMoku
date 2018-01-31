@@ -69,3 +69,4 @@ class Minimax(object):
     def getUtility(self, node):
         assert node is not None
         return node.value
+
