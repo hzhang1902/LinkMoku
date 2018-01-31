@@ -1,4 +1,4 @@
-import Evals_Heuristics
+import Evals_Heuristics as eh
 
 """engine of Minimax algorithm with alpha-beta pruning"""
 
@@ -13,10 +13,10 @@ class Minimax(object):
         return
 
 
-    def minimax_decision(self, nodeList):  # nodeList is all the possible moves
+    def minimax_decision(self, steps):  # nodeList is all the possible moves
 
-        max_val = self.max_value(nodeList) 
-        successors = self.getSuccessors(nodeList) ###
+        max_val = self.max_value(steps) 
+        successors = eh.get_next_level(steps) ###
         print "MiniMax:  Utility Value of Root Node: = " + str(max_val)
         
         # Find the best move
@@ -29,7 +29,7 @@ class Minimax(object):
         return best_move
 
 
-    def max_value(self, nodeList):  # get the max value of the possible moves
+    def max_value(self, steps):  # get the max value of the possible moves
         for node in nodeList:
             print "MiniMax-->MAX: Visited Node :: " + node.Name
             if self.isTerminal(node):
@@ -38,7 +38,7 @@ class Minimax(object):
             infinity = float('inf')
             max_value = -infinity
 
-            successors_states = self.getSuccessors(node)  # TODO getSuccessor
+            successors_states = eh.get_next_level(node)  # TODO getSuccessor
             max_value_list = []
             for state in successors_states:
                 max_value = max(max_value, self.min_value(state))
@@ -54,12 +54,12 @@ class Minimax(object):
         infinity = float('inf')
         min_value = infinity
 
-        successor_states = self.getSuccessors(node)  # TODO getSuccessor
+        successor_states = eh.get_next_level(node)  # TODO getSuccessor
         for state in successor_states:
             min_value = min(min_value, self.max_value(state))
         return min_value
 
-    # def getSuccessor in heuristic
+    # def getSuccessor in eval_Heuristic
 
     
     def isTerminal(self, node):
