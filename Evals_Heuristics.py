@@ -1,58 +1,35 @@
 """evaluation function definitions and heuristics"""
 
-current_board = []
+# current_board = []
+BOARD_SIZE = 15
 
 """set the entire board to 0"""
-def initialize_board():
+def initialize_board(current_board):
     index_x = 0
-    while index_x < 15:
+    while index_x < BOARD_SIZE:
         index_y = 0
-        while index_y < 15:
+        while index_y < BOARD_SIZE:
             current_board[index_x][index_y] = 0
             index_y += 1
         index_x += 1
 
 
 """get next level of empty nodes"""
-def get_next_level(steps, c_player):
-    imaginary_board = current_board
-    update_imaginary_board(steps, imaginary_board)
+def get_next_level(current_board, c_player):
     all_poss = []
     index_x = 0
-    while index_x < 15:
+    while index_x < BOARD_SIZE:
         index_y = 0
-        while index_y < 15:
-            if imaginary_board[index_x][index_y] == 0:
-                new_poss = Node(index_x, index_y, c_player)
-                all_poss.append(new_poss)
+        while index_y < BOARD_SIZE:
+            if current_board[index_x][index_y] == 0:
+                imaginary_board = current_board
+                imaginary_board[index_x][index_y] = c_player
+                all_poss.append(imaginary_board)
             index_y += 1
         index_x += 1
     return all_poss
 
 
-"""update the board by a list of steps"""
-def update_imaginary_board(steps, imaginary_board):
-    for n in steps:
-        x = n.X
-        y = n.Y
-        player = n.player
-        imaginary_board[x][y] = player
-
-
-def update_current_board(node):
-    current_board[node.X][node.Y] = node.player
-
-
-def evaluate_value():
+def evaluate_value(board):
     return 0
 
-
-class Node:
-    X = 0
-    Y = 0
-    player = 0
-
-    def __init__(self, node_x, node_y, node_player):
-        self.X = node_x
-        self.Y = node_y
-        self.player = node_player
