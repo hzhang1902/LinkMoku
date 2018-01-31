@@ -2,7 +2,7 @@ import Evals_Heuristics as eh
 
 """engine of Minimax algorithm with alpha-beta pruning"""
 
-class Minimax(object):
+class Minimax(self):
     
     def __init__(self, gameTree):
         self.gameTree = gameTree
@@ -13,9 +13,9 @@ class Minimax(object):
         return
 
 
-    def minimax_decision(self, steps):  # nodeList is all the possible moves
+    def minimax_decision(self, steps):  # steps is all the possible moves (listNode)
 
-        max_val = self.max_value(steps) 
+        max_val_list = self.max_value(steps) 
         successors = eh.get_next_level(steps) ###
         print "MiniMax:  Utility Value of Root Node: = " + str(max_val)
         
@@ -30,15 +30,15 @@ class Minimax(object):
 
 
     def max_value(self, steps):  # get the max value of the possible moves
-        for node in nodeList:
+        for step in steps:
             print "MiniMax-->MAX: Visited Node :: " + node.Name
-            if self.isTerminal(node):
-                return self.getUtility(node)
+            if self.isTerminal(step):
+                return self.getUtility(step)
 
             infinity = float('inf')
             max_value = -infinity
 
-            successors_states = eh.get_next_level(node)  # TODO getSuccessor
+            successors_states = eh.get_next_level(step)  # TODO getSuccessor
             max_value_list = []
             for state in successors_states:
                 max_value = max(max_value, self.min_value(state))
