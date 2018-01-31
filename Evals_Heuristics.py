@@ -5,18 +5,13 @@
 BOARD_SIZE = 15
 
 
-"""set the entire board to 0"""
-def initialize_board(current_board):
-    index_x = 0
-    while index_x < BOARD_SIZE:
-        index_y = 0
-        while index_y < BOARD_SIZE:
-            current_board[index_x][index_y] = 0
-            index_y += 1
-        index_x += 1
+# set the entire board to 0
+def initialize_board():
+    current_board = [0]*225
+    return current_board
 
 
-"""get next level of empty nodes"""
+# get next level of empty nodes
 def get_next_level(current_board, c_player):
     all_poss = []
     index_x = 0
@@ -32,5 +27,5 @@ def get_next_level(current_board, c_player):
     return all_poss
 
 
-def evaluate_value(board):
+def evaluate_value(current_board, c_player):
     return 0
