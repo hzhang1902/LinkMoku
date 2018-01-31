@@ -1,7 +1,4 @@
 """evaluation function definitions and heuristics"""
-<<<<<<< HEAD
-=======
-
 
 board = []
 
