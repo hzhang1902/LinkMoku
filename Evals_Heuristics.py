@@ -1,12 +1,6 @@
 """evaluation function definitions and heuristics"""
 
-<<<<<<< HEAD
-board = []
-
-=======
-
 current_board = []
->>>>>>> master
 
 """set the entire board to 0"""
 def initialize_board():
