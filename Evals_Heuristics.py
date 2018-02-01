@@ -1,11 +1,7 @@
 """evaluation function definitions and heuristics"""
-<<<<<<< HEAD
 
-current_board = []
-=======
 from copy import deepcopy
 
->>>>>>> master
 BOARD_SIZE = 15
 
 # get an empty board
