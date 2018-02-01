@@ -1,10 +1,6 @@
 """evaluation function definitions and heuristics"""
 
-<<<<<<< HEAD
 current_board = []
-=======
-
->>>>>>> master
 BOARD_SIZE = 15
 
 
@@ -33,8 +29,6 @@ def get_next_level(current_board, c_player):
 def evaluate_value(current_board, c_player):
     return 0
 
-<<<<<<< HEAD
-=======
 
 def num_x(board, c_player):
 
@@ -66,4 +60,3 @@ def num_p(board, c_player):
     return 0
 
 
->>>>>>> master
