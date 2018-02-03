@@ -7,12 +7,12 @@ BOARD_SIZE = 15
 
 class Minimax:
     
-    def __init__(self, gameTree): # gameTree is board?
-        self.gameTree = gameTree
-        #self.root = gameTree.root
+    def __init__(self, board): 
+        self.board = board
+        #self.root = board.root
         self.currentNode = None 
         self.successors = []
-        print "Successfully created minimax gameTree."
+        print "Successfully created minimax board."
         return
 
 
@@ -33,7 +33,7 @@ class Minimax:
 
     def max_value(self, current_board, c_player):  # get the max value of the possible moves
         if self.isTerminal(current_board, c_player):
-            return self.getUtility(curren_board)
+            return self.getEval(current_board, c_player)
 
         infinity = float('inf')
         max_value = -infinity
@@ -43,39 +43,37 @@ class Minimax:
         # max_value_list = []
         for poss in all_poss:
             print "calc min"
-            max_value = max(max_value, self.min_value(poss)) # TODO
+            max_value = max(max_value, self.min_value(poss, c_player)) # TODO
         print "calculate max value success"
         return max_value
 
 
-    def min_value(self, current_board): # get the min value of the possible moves
+    def min_value(self, current_board, c_player): # get the min value of the possible moves
         #print "MiniMax-->MIN: Visited Node :: " + node.Name
-        if self.isTerminal(current_board):
-            return self.getUtility(current_board)
+        if self.isTerminal(current_board, c_player):
+            return self.getEval(current_board)
 
         infinity = float('inf')
         min_value = infinity
 
         all_poss = eh.get_next_level(current_board, c_player)  # get the next steps
         for poss in all_poss:
-            min_value = min(min_value, self.max_value(all_poss))
+            min_value = min(min_value, self.max_value(all_poss, c_player))
         print "calculate min value"
         return min_value
-
-    # def getSuccessor in eval_Heuristic
-
     
     def isTerminal(self, current_board, c_player):
         assert current_board is not None
         return len(eh.get_next_level(current_board, c_player)) == 0
 
-    def getUtility(self, current_board):
+    def getEval(self, current_board, c_player):
         assert current_board is not None
-        return evaluate_value(current_board, c_player)
+        return eh.evaluate_value(current_board, c_player)
 
 
-#gameTree = eh.initialize_board()
-gameTree = [[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+#board = eh.initialize_board()
+    """
+board = [[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
             [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
             [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
             [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
@@ -91,7 +89,9 @@ gameTree = [[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
             [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
             [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
             [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]
+            """
+board = [[0,0,0], [0,2,0],[0,0,0]]
 player1 = 1
 player2 = 2
-sudoku1 = Minimax(gameTree)
-sudoku1.minimax_decision(gameTree, 1)
+sudoku1 = Minimax(board)
+sudoku1.minimax_decision(board, 1)

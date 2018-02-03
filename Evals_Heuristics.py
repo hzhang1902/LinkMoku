@@ -77,7 +77,10 @@ def get_links(board, stone, already_linked):
 
     return links
 
+def evaluate_value(board, c_player):
+    return 0
 
+"""
 def evaluate_value(board, c_player):
     o_player = 1
     if c_player == 1:
@@ -177,7 +180,7 @@ def evaluate_value(board, c_player):
 
     return 3 * (x1 + 3*x2 + 12*x3 + 60*x4 + 1000*x5) + (y1 + 3*y2 + 9*y3 + 50*y4 + 1000*y5) \
         - 2 * (3*(o1 + 3*o2 + 12*o3 + 60*o4 + 1000*o5) + (p1 + 3*p2 + 9*p3 + 50*p4 + 1000*p5))
-
+"""
 
 class Stone:
     def __init__(self, x_pos, y_pos, player):
@@ -236,11 +239,5 @@ for one_poss in poss:
         print row
         y -= 1
     print "\n"
-<<<<<<< HEAD
 """
-equalornot = link_equal([Stone(2,1,2), Stone(1,1,1)],
-                        [Stone(1,1,1), Stone(2,1,2)])
-print equalornot
-=======
-"""
->>>>>>> master
+
