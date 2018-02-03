@@ -1,4 +1,5 @@
 """evaluation function definitions and heuristics"""
+
 from copy import deepcopy
 
 BOARD_SIZE = 3
@@ -235,4 +236,11 @@ for one_poss in poss:
         print row
         y -= 1
     print "\n"
+<<<<<<< HEAD
 """
+equalornot = link_equal([Stone(2,1,2), Stone(1,1,1)],
+                        [Stone(1,1,1), Stone(2,1,2)])
+print equalornot
+=======
+"""
+>>>>>>> master
