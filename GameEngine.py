@@ -1,6 +1,7 @@
 import AIEngine
 import os
 import time
+import Evals_Heuristics as eh
 """game engine, I/O"""
 
 hometeamName = "ggboys"
@@ -15,15 +16,22 @@ def readMove():
 	text = f.read()
 	f.close()
 	unparsedMoves = text.split(" ")
-	x = unparsedMoves[1]
-	y = unparsedMoves[2]
-
-	print x
-	print y
+	player = 0
+	if(unparsedMoves[0] == hometeamName):
+		player = 1
+	if(unparsedMoves[0] == guestteamName):
+		player = 2
+	x = letter2Int(unparsedMoves[1])
+	y = int(unparsedMoves[2]) - 1
+	move = eh.Stone(x, y, player)
+	print move
+	return move
 
 def writeMove(colum, row):
+	x = Int2Letter(colum)
+	y = str(row + 1)
 	f = open("move_file", "w")
-	f.write(hometeamName+" "+ colum + " "+ row)
+	f.write(hometeamName+" "+ x + " "+ y)
 	f.close()
 
 def letter2Int(letter):
@@ -54,11 +62,9 @@ def rungame():
 			rungame()
 		if f == hometeamName + ".go":
 			readMove()
-			writeMove("C", "9")
-			number = letter2Int("K")
-			letter = Int2Letter(13)
-			print number
-			print letter
+			writeMove(0, 0)
+			readMove()
+
 rungame()
 
 
