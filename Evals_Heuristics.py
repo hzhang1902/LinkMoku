@@ -180,7 +180,7 @@ def get_links(board, stone, already_linked):
         links.append(link)
 
     return links
-
+"""
 def evaluate_value(board, c_player):
     return 0
 
@@ -284,15 +284,10 @@ def evaluate_value(board, c_player):
             index_y += 1
         index_x += 1
 
-<<<<<<< HEAD
-    return 3 * (x1 + 3*x2 + 12*x3 + 60*x4 + 1000*x5) + (y1 + 3*y2 + 9*y3 + 50*y4 + 1000*y5) \
-        - 2 * (3*(o1 + 3*o2 + 12*o3 + 60*o4 + 1000*o5) + (p1 + 3*p2 + 9*p3 + 50*p4 + 1000*p5))
-"""
-=======
+
     return 3 * (x1 + 5*x2 + 12*x3 + 60*x4 + 1000*x5) + (y1 + 3*y2 + 9*y3 + 50*y4 + 1000*y5) \
         - 2 * (3*(o1 + 5*o2 + 12*o3 + 60*o4 + 1000*o5) + (p1 + 3*p2 + 9*p3 + 50*p4 + 1000*p5))
 
->>>>>>> master
 
 class Stone:
     def __init__(self, x_pos, y_pos, player):
@@ -351,8 +346,4 @@ for one_poss in poss:
         print row
         y -= 1
     print "\n"
-<<<<<<< HEAD
-"""
 
-=======
->>>>>>> master
