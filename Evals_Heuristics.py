@@ -4,6 +4,7 @@ from copy import deepcopy
 
 BOARD_SIZE = 15
 
+
 # get an empty board
 def initialize_board(size):
     BOARD_SIZE = size
@@ -41,11 +42,16 @@ def get_next_level(board, c_player):
         while index_x < BOARD_SIZE:
             if board[index_x][index_y] == 0:
                 imaginary_board = deepcopy(board)
+
                 imaginary_board[index_x][index_y] = c_player
                 all_poss.append(imaginary_board)
             index_x += 1
         index_y += 1
     return all_poss
+
+
+def apply_heuristics(old_board, stone, poss):
+    return poss
 
 
 def link_direction(board, stone, already_linked, direction):
@@ -370,34 +376,3 @@ class Link:
 
         return True
 
-
-# print all possibilities
-# print evaluate_value(a_board, 1)
-
-"""
-y = BOARD_SIZE - 1
-while y >= 0:
-    x = 0
-    row = []
-    while x < BOARD_SIZE:
-        row.append(a_board[x][y])
-        x += 1
-    print row
-    y -= 1
-"""
-#print evaluate_value(a_board, 1)
-"""
-for one_poss in poss:
-    print evaluate_value(one_poss, 1)
-    
-    y = BOARD_SIZE - 1
-    while y >= 0:
-        x = 0
-        row = []
-        while x < BOARD_SIZE:
-            row.append(one_poss[x][y])
-            x += 1
-        print row
-        y -= 1
-    print "\n"
-"""

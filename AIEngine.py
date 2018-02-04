@@ -4,6 +4,8 @@ import Evals_Heuristics as eh
 
 current_board = []
 BOARD_SIZE = 15
+
+
 class Minimax:
     
     def __init__(self, board): 
@@ -145,12 +147,8 @@ for one_poss in poss:
         print row
         y -= 1
     print "\n"
-"""    
+"""
 new_board = eh.initialize_board(BOARD_SIZE)
-new_board[3][3] = 2
-new_board[3][2] = 1
-new_board[2][3] = 2
-new_board[1][4] = 1
 
 player1 = 1
 player2 = 2
