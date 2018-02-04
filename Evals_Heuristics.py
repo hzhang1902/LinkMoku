@@ -2,7 +2,7 @@
 
 from copy import deepcopy
 
-BOARD_SIZE = 3
+BOARD_SIZE = 15
 
 
 # get an empty board
@@ -14,6 +14,22 @@ def initialize_board():
         current_board.append(col)
         index_x += 1
     return current_board
+
+
+def update_board(board, stone):
+    board[stone.x][stone.y] = stone.player
+
+
+def get_step(old_board, new_board):
+    index_x = 0
+    while index_x < BOARD_SIZE:
+        index_y = 0
+        while index_y < BOARD_SIZE:
+            if not old_board[index_x][index_y] == new_board[index_x][index_y]:
+                return Stone(index_x, index_y, new_board[index_x][index_y])
+            index_y += 1
+        index_x += 1
+    return None
 
 
 # get next level of boards
@@ -61,16 +77,25 @@ def link_direction(board, stone, already_linked, direction):
     else:
         return None
 
+    o_player = 1
+    if stone.player == 1:
+        o_player = 2
+
     if (next_x < 0) or (next_x >= BOARD_SIZE) or (next_y < 0) or (next_y >= BOARD_SIZE):
-        return [stone]
+        # if next stone is out of board
+        # pretend it's blocked by other player's stone
+        return [stone, Stone(next_x, next_y, o_player)]
 
     if Stone(next_x, next_y, board[next_x][next_y]) in already_linked:
+        # this link is already explored, give up
         return None
 
     if board[next_x][next_y] == 0:
+        # link ends
         return [stone]
 
     elif board[next_x][next_y] == stone.player:
+        # recursion until link ends or blocked by other player's stone
         next_line = link_direction(board, Stone(next_x, next_y, stone.player), already_linked, direction)
         if next_line is None:
             return None
@@ -78,9 +103,7 @@ def link_direction(board, stone, already_linked, direction):
             next_line.append(stone)
             return next_line
     else:
-        o_player = 1
-        if stone.player == 1:
-            o_player = 2
+        # add other player's stone as well
         return [stone, Stone(next_x, next_y, o_player)]
 
 
@@ -136,7 +159,8 @@ def link_line(board, stone, already_linked, direction):
     else:
         return None
 
-    """print "current stone", stone.x, stone.y, "dir", direction
+    """
+    print "current stone", stone.x, stone.y, stone.player, "dir", direction
     for a_stone in line:
         print str(a_stone)
     """
@@ -281,8 +305,33 @@ def evaluate_value(board, c_player):
             index_y += 1
         index_x += 1
 
-    return 3 * (x1 + 5*x2 + 12*x3 + 60*x4 + 1000*x5) + (y1 + 3*y2 + 9*y3 + 50*y4 + 1000*y5) \
-        - 2 * (3*(o1 + 5*o2 + 12*o3 + 60*o4 + 1000*o5) + (p1 + 3*p2 + 9*p3 + 50*p4 + 1000*p5))
+    """
+    print "x1 =", x1
+    print "x2 =", x2
+    print "x3 =", x3
+    print "x4 =", x4
+    print "x5 =", x5
+
+    print "y1 =", y1
+    print "y2 =", y2
+    print "y3 =", y3
+    print "y4 =", y4
+    print "y5 =", y5
+
+    print "o1 =", o1
+    print "o2 =", o2
+    print "o3 =", o3
+    print "o4 =", o4
+    print "o5 =", o5
+
+    print "p1 =", p1
+    print "p2 =", p2
+    print "p3 =", p3
+    print "p4 =", p4
+    print "p5 =", p5
+    """
+    return 3 * (x1 + 5*x2 + 12*x3 + 60*x4 + 1000*x5) + (y1 + 5*y2 + 12*y3 + 50*y4 + 1000*y5) \
+        - (3 * (o1 + 5*o2 + 12*o3 + 60*o4 + 1000*o5) + (p1 + 5*p2 + 12*p3 + 50*p4 + 1000*p5))
 
 
 class Stone:
@@ -322,14 +371,32 @@ class Link:
         return True
 
 
-new_board = initialize_board()
-new_board[1][1] = 1
-new_board[2][2] = 1
-poss = get_next_level(new_board, 1)
-
+a_board = initialize_board()
+a_board[7][6] = 1
+a_board[7][7] = 1
+a_board[8][7] = 1
+a_board[6][8] = 1
+a_board[7][5] = 2
+a_board[8][6] = 2
+a_board[9][7] = 2
+a_board[8][8] = 2
+a_board[6][7] = 1
+# poss = get_next_level(a_board, 1)
 # print all possibilities
+print evaluate_value(a_board, 1)
 
-
+"""
+y = BOARD_SIZE - 1
+while y >= 0:
+    x = 0
+    row = []
+    while x < BOARD_SIZE:
+        row.append(a_board[x][y])
+        x += 1
+    print row
+    y -= 1
+"""
+"""
 for one_poss in poss:
     print evaluate_value(one_poss, 1)
     y = BOARD_SIZE - 1
@@ -342,3 +409,4 @@ for one_poss in poss:
         print row
         y -= 1
     print "\n"
+"""
