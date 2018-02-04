@@ -16,6 +16,22 @@ def initialize_board():
     return current_board
 
 
+def update_board(board, stone):
+    board[stone.x][stone.y] = stone.player
+
+
+def get_step(old_board, new_board):
+    index_x = 0
+    while index_x < BOARD_SIZE:
+        index_y = 0
+        while index_y < BOARD_SIZE:
+            if not old_board[index_x][index_y] == new_board[index_x][index_y]:
+                return Stone(index_x, index_y, new_board[index_x][index_y])
+            index_y += 1
+        index_x += 1
+    return None
+
+
 # get next level of boards
 def get_next_level(board, c_player):
     all_poss = []
@@ -61,6 +77,7 @@ def link_direction(board, stone, already_linked, direction):
     else:
         return None
 
+<<<<<<< HEAD
     if (next_x < 0) or (next_x >= BOARD_SIZE) or (next_y < 0) or (next_y >= BOARD_SIZE):
         return [stone]
 
@@ -153,8 +170,132 @@ def contains_stone(a_list, stone):
         if a_stone.__eq__(stone):
             return True
     return False
+=======
+    o_player = 1
+    if stone.player == 1:
+        o_player = 2
+
+    if (next_x < 0) or (next_x >= BOARD_SIZE) or (next_y < 0) or (next_y >= BOARD_SIZE):
+        # if next stone is out of board
+        # pretend it's blocked by other player's stone
+        return [stone, Stone(next_x, next_y, o_player)]
+
+    if Stone(next_x, next_y, board[next_x][next_y]) in already_linked:
+        # this link is already explored, give up
+        return None
+>>>>>>> master
+
+    if board[next_x][next_y] == 0:
+        # link ends
+        return [stone]
+
+<<<<<<< HEAD
+# get a list of links given a board and a stone
+def get_links(board, stone, already_linked):
+    links = []
+
+    # top left diagonal
+    link = link_line(board, stone, already_linked, "top_left_diagonal")
+    if (link is not None) and (len(link.stones) > 0):
+        links.append(link)
+
+    # vertical
+    link = link_line(board, stone, already_linked, "vertical")
+    if (link is not None) and (len(link.stones) > 0):
+        links.append(link)
+=======
+    elif board[next_x][next_y] == stone.player:
+        # recursion until link ends or blocked by other player's stone
+        next_line = link_direction(board, Stone(next_x, next_y, stone.player), already_linked, direction)
+        if next_line is None:
+            return None
+        else:
+            next_line.append(stone)
+            return next_line
+    else:
+        # add other player's stone as well
+        return [stone, Stone(next_x, next_y, o_player)]
 
 
+def link_line(board, stone, already_linked, direction):
+    if direction == "top_left_diagonal":
+        side1_direction = "top_left"
+        side2_direction = "bottom_right"
+    elif direction == "top_right_diagonal":
+        side1_direction = "bottom_left"
+        side2_direction = "top_right"
+    elif direction == "horizontal":
+        side1_direction = "right"
+        side2_direction = "left"
+    elif direction == "vertical":
+        side1_direction = "top"
+        side2_direction = "bottom"
+    else:
+        return None
+
+    line = []
+    side1 = link_direction(board,
+                           Stone(stone.x, stone.y, stone.player),
+                           already_linked,
+                           side1_direction)
+
+    side2 = link_direction(board,
+                           Stone(stone.x, stone.y, stone.player),
+                           already_linked,
+                           side2_direction)
+
+    if (side1 is None) or (side2 is None):
+        return None
+
+    o_player = 1
+    if stone.player == 1:
+        o_player = 2
+
+    num_o_player_stone = 0
+    for a_stone in side1:
+        if (a_stone.player == stone.player) and (not a_stone == stone):
+            line.append(a_stone)
+        elif a_stone.player == o_player:
+            num_o_player_stone += 1
+
+    for a_stone in side2:
+        if (a_stone.player == stone.player) and (not a_stone == stone):
+            line.append(a_stone)
+        elif a_stone.player == o_player:
+            num_o_player_stone += 1
+
+    if len(line) > 0:
+        line.append(stone)
+    else:
+        return None
+
+    """
+    print "current stone", stone.x, stone.y, stone.player, "dir", direction
+    for a_stone in line:
+        print str(a_stone)
+    """
+    if num_o_player_stone > 1:
+        return None
+    elif num_o_player_stone > 0:
+        return Link(line, "close")
+    else:
+        return Link(line, "open")
+
+
+def contains_stone(a_list, stone):
+    for a_stone in a_list:
+        if a_stone.__eq__(stone):
+            return True
+    return False
+>>>>>>> master
+
+    # top right diagonal
+    link = link_line(board, stone, already_linked, "top_right_diagonal")
+    if (link is not None) and (len(link.stones) > 0):
+        links.append(link)
+
+<<<<<<< HEAD
+=======
 # get a list of links given a board and a stone
 def get_links(board, stone, already_linked):
     links = []
@@ -174,6 +315,7 @@ def get_links(board, stone, already_linked):
     if (link is not None) and (len(link.stones) > 0):
         links.append(link)
 
+>>>>>>> master
     # horizontal
     link = link_line(board, stone, already_linked, "horizontal")
     if (link is not None) and (len(link.stones) > 0):
@@ -284,9 +426,39 @@ def evaluate_value(board, c_player):
             index_y += 1
         index_x += 1
 
+<<<<<<< HEAD
 
     return 3 * (x1 + 5*x2 + 12*x3 + 60*x4 + 1000*x5) + (y1 + 3*y2 + 9*y3 + 50*y4 + 1000*y5) \
         - 2 * (3*(o1 + 5*o2 + 12*o3 + 60*o4 + 1000*o5) + (p1 + 3*p2 + 9*p3 + 50*p4 + 1000*p5))
+=======
+    """
+    print "x1 =", x1
+    print "x2 =", x2
+    print "x3 =", x3
+    print "x4 =", x4
+    print "x5 =", x5
+
+    print "y1 =", y1
+    print "y2 =", y2
+    print "y3 =", y3
+    print "y4 =", y4
+    print "y5 =", y5
+
+    print "o1 =", o1
+    print "o2 =", o2
+    print "o3 =", o3
+    print "o4 =", o4
+    print "o5 =", o5
+
+    print "p1 =", p1
+    print "p2 =", p2
+    print "p3 =", p3
+    print "p4 =", p4
+    print "p5 =", p5
+    """
+    return 3 * (x1 + 5*x2 + 12*x3 + 60*x4 + 1000*x5) + (y1 + 5*y2 + 12*y3 + 50*y4 + 1000*y5) \
+        - (3 * (o1 + 5*o2 + 12*o3 + 60*o4 + 1000*o5) + (p1 + 5*p2 + 12*p3 + 50*p4 + 1000*p5))
+>>>>>>> master
 
 
 class Stone:
@@ -325,15 +497,46 @@ class Link:
 
         return True
 
+<<<<<<< HEAD
 """
 new_board = initialize_board()
 new_board[1][1] = 1
 new_board[2][2] = 1
 poss = get_next_level(new_board, 1)
 
+=======
+
+a_board = initialize_board()
+a_board[7][6] = 1
+a_board[7][7] = 1
+a_board[8][7] = 1
+a_board[6][8] = 1
+a_board[7][5] = 2
+a_board[8][6] = 2
+a_board[9][7] = 2
+a_board[8][8] = 2
+a_board[6][7] = 1
+# poss = get_next_level(a_board, 1)
+>>>>>>> master
 # print all possibilities
+print evaluate_value(a_board, 1)
 
+<<<<<<< HEAD
 
+=======
+"""
+y = BOARD_SIZE - 1
+while y >= 0:
+    x = 0
+    row = []
+    while x < BOARD_SIZE:
+        row.append(a_board[x][y])
+        x += 1
+    print row
+    y -= 1
+"""
+"""
+>>>>>>> master
 for one_poss in poss:
     print evaluate_value(one_poss, 1)
     y = BOARD_SIZE - 1
@@ -346,4 +549,8 @@ for one_poss in poss:
         print row
         y -= 1
     print "\n"
+<<<<<<< HEAD
 """
+=======
+"""
+>>>>>>> master
