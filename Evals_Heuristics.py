@@ -2,7 +2,7 @@
 
 from copy import deepcopy
 
-BOARD_SIZE = 3
+BOARD_SIZE = 15
 
 
 # get an empty board
@@ -325,7 +325,7 @@ class Link:
 
         return True
 
-
+"""
 new_board = initialize_board()
 new_board[1][1] = 1
 new_board[2][2] = 1
@@ -346,4 +346,4 @@ for one_poss in poss:
         print row
         y -= 1
     print "\n"
-
+"""

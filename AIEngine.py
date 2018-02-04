@@ -14,24 +14,31 @@ class Minimax:
         self.successors = []
         print "Successfully created minimax board."
         return
-
+    
 
     def minimax_decision(self, current_board, c_player):
-        max_val = self.max_value(current_board, c_player) ###
+        infinity = float('inf')
+        best_val = -infinity
+        beta = infinity
+        
+        # max_val = self.max_value(current_board, c_player) ###
         next_steps = eh.get_next_level(current_board, c_player) ### 
-        print "MiniMax:  Utility Value of Root Node: = " + str(max_val)
+        #print "MiniMax:  Utility Value of Root Node: = " + str(max_val)
         
         # Find the best move
         best_move = None
-        for step in next_steps:   
-            if step.value == max_val:
+        for step in next_steps:
+            min_value = self.min_value(step, best_val, beta, c_player)   
+            if min_value > best_val:
+                best_val = min_value
                 best_move = step
-                break
+        print "AlphaBeta:  Utility Value of Root Node: = " + str(best_val)
         print "find best move success"
+        print best_move
         return best_move
 
-
-    def max_value(self, current_board, c_player):  # get the max value of the possible moves
+    
+    def max_value(self, current_board, alpha, beta, c_player):  # get the max value of the possible moves
         if self.isTerminal(current_board, c_player):
             return self.getEval(current_board, c_player)
 
@@ -39,16 +46,18 @@ class Minimax:
         max_value = -infinity
 
         all_poss = eh.get_next_level(current_board, c_player)  # get the next steps
-        print "all poss:", all_poss
-        # max_value_list = []
         for poss in all_poss:
             print "calc min"
-            max_value = max(max_value, self.min_value(poss, c_player)) # TODO
+            max_value = max(max_value, self.min_value(poss, alpha, beta, c_player)) # TODO
+            if max_value >= beta:
+                return max_value
+            alpha = max(alpha, max_value)
         print "calculate max value success"
+        print "max_value is: " + str(max_value)
         return max_value
 
-
-    def min_value(self, current_board, c_player): # get the min value of the possible moves
+    
+    def min_value(self, current_board, alpha, beta, c_player): # get the min value of the possible moves
         #print "MiniMax-->MIN: Visited Node :: " + node.Name
         if self.isTerminal(current_board, c_player):
             return self.getEval(current_board)
@@ -58,8 +67,12 @@ class Minimax:
 
         all_poss = eh.get_next_level(current_board, c_player)  # get the next steps
         for poss in all_poss:
-            min_value = min(min_value, self.max_value(all_poss, c_player))
+            min_value = min(min_value, self.max_value(all_poss, alpha, beta, c_player))
+            if min_value <= alpha:
+                return min_value
+            beta = min(beta, min_value)
         print "calculate min value"
+        print "min_value is: " + str(min_value)
         return min_value
     
     def isTerminal(self, current_board, c_player):
@@ -71,8 +84,7 @@ class Minimax:
         return eh.evaluate_value(current_board, c_player)
 
 
-#board = eh.initialize_board()
-    """
+"""
 board = [[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
             [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
             [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
@@ -90,7 +102,9 @@ board = [[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
             [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
             [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]
             """
-board = [[0,0,0], [0,2,0],[0,0,0]]
+"""board = [[0,0,0], [0,2,0],[0,0,0]]"""
+board = eh.initialize_board()
+print board
 player1 = 1
 player2 = 2
 sudoku1 = Minimax(board)
