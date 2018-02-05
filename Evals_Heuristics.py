@@ -3,7 +3,7 @@
 from copy import deepcopy
 
 BOARD_SIZE = 15
-LINK_LENGTH_TO_WIN = 5
+LENGTH_TO_WIN = 5
 
 
 # get an empty board
@@ -35,29 +35,36 @@ def get_step(old_board, new_board):
 
 # get next level of boards
 def get_next_level(board, c_player):
-    all_poss = []
+    normal_poss = []
+    priority_poss = []
+
     index_y = 0
     while index_y < BOARD_SIZE:
         index_x = 0
         while index_x < BOARD_SIZE:
             if board[index_x][index_y] == 0:
+                heu_value = eval_heuristics(board, Stone(index_x, index_y, c_player))
                 imaginary_board = deepcopy(board)
-                if apply_heuristics(imaginary_board, Stone(index_x, index_y, c_player)):
-                    imaginary_board[index_x][index_y] = c_player
-                    all_poss.append(imaginary_board)
+                imaginary_board[index_x][index_y] = c_player
+                if heu_value == "normal":
+                    normal_poss.append(imaginary_board)
+                elif heu_value == "priority":
+                    priority_poss.append(imaginary_board)
             index_x += 1
         index_y += 1
-    return all_poss
+
+    priority_poss.extend(normal_poss)
+    return priority_poss
 
 
-def apply_heuristics(old_board, stone):
+def eval_heuristics(old_board, stone):
 
     # discard possibilities with manhattan distance to nearest existing stone > 4
     stone_within_area = False
-    min_x = 1 - LINK_LENGTH_TO_WIN
-    max_x = LINK_LENGTH_TO_WIN
-    min_y = 1 - LINK_LENGTH_TO_WIN
-    max_y = LINK_LENGTH_TO_WIN
+    min_x = 1 - LENGTH_TO_WIN
+    max_x = LENGTH_TO_WIN
+    min_y = 1 - LENGTH_TO_WIN
+    max_y = LENGTH_TO_WIN
     if stone.x + min_x < 0:
         min_x = 0 - stone.x
     if stone.x + max_x >= BOARD_SIZE:
@@ -78,9 +85,10 @@ def apply_heuristics(old_board, stone):
             break
         x += 1
     if not stone_within_area:
-        return False
+        return "discard"
 
-    return True
+    # prioritize 3/3, 4/3, 4/4 situations
+    return "normal"
 
 
 def link_direction(board, stone, already_linked, direction):
@@ -189,18 +197,25 @@ def link_line(board, stone, already_linked, direction):
         elif a_stone.player == o_player:
             num_o_player_stone += 1
 
-    if len(line) > 0:
-        line.append(stone)
-    else:
-        return None
+    line.append(stone)
 
     """
     print "current stone", stone.x, stone.y, stone.player, "dir", direction
     for a_stone in line:
         print str(a_stone)
     """
-    if (num_o_player_stone > 1) and len(line) < 5:
+    if len(line) <= 0:
         return None
+
+    # a double closed link
+    if num_o_player_stone > 1:
+        if len(line) == 1:
+            if num_o_player_stone < 8:
+                return Link(line, "close")
+            else:
+                return None
+        elif len(line) < 5:
+            return None
     elif num_o_player_stone > 0:
         return Link(line, "close")
     else:
@@ -365,9 +380,11 @@ def evaluate_value(board, c_player):
     print "p4 =", p4
     print "p5 =", p5
     """
-    return 3 * (x1 + 5*x2 + 12*x3 + 60*x4 + 1000*x5) + (y1 + 5*y2 + 12*y3 + 50*y4 + 1000*y5) \
-        - (3 * (o1 + 5*o2 + 12*o3 + 60*o4 + 1000*o5) + (p1 + 5*p2 + 12*p3 + 50*p4 + 1000*p5))
-
+    eval1 = 3 * (2*x1 + 10*x2 + 100*x3 + 500*x4 + 10000*x5) + (y1 + 5*y2 + 60*y3 + 300*y4 + 10000*y5) \
+        - 2 * (3 * (2*o1 + 10*o2 + 100*o3 + 500*o4 + 10000*o5) + (p1 + 5*p2 + 60*p3 + 300*p4 + 10000*p5))
+    eval2 = 3 * (2*x1 + 20*x2 + 160*x3 + 640*x4 + 10000*x5) + (y1 + 5*y2 + 50*y3 + 300*y4 + 10000*y5) \
+        - 2 * (3 * (2*o1 + 20*o2 + 160*o3 + 640*o4 + 10000*o5) + (p1 + 5*p2 + 50*p3 + 300*p4 + 10000*p5))
+    return eval1
 
 class Stone:
     def __init__(self, x_pos, y_pos, player):
@@ -405,10 +422,3 @@ class Link:
 
         return True
 
-
-test_board = initialize_board()
-test_board[7][7] = 2
-idx = 0
-for poss in get_next_level(test_board, 1):
-    idx += 1
-print idx
