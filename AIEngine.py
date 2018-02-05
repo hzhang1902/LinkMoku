@@ -134,6 +134,7 @@ class Minimax:
             #print "min_value is: " + str(min_value)
             return min_value
 
+# in ms
 
 new_board = eh.initialize_board(BOARD_SIZE)
 new_board[3][3] = 2
@@ -144,9 +145,6 @@ new_board[10][3] = 2
 new_board[10][4] = 1
 new_board[10][10] = 2
 new_board[8][5] = 1
-
-
-new_board = eh.initialize_board(BOARD_SIZE)
 
 player1 = 1
 player2 = 2
