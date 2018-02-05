@@ -4,9 +4,9 @@ from copy import deepcopy
 
 BOARD_SIZE = 15
 
+
 # get an empty board
-def initialize_board(size):
-    BOARD_SIZE = size
+def initialize_board():
     current_board = []
     index_x = 0
     while index_x < BOARD_SIZE:
@@ -370,34 +370,3 @@ class Link:
 
         return True
 
-
-# print all possibilities
-# print evaluate_value(a_board, 1)
-
-"""
-y = BOARD_SIZE - 1
-while y >= 0:
-    x = 0
-    row = []
-    while x < BOARD_SIZE:
-        row.append(a_board[x][y])
-        x += 1
-    print row
-    y -= 1
-"""
-#print evaluate_value(a_board, 1)
-"""
-for one_poss in poss:
-    print evaluate_value(one_poss, 1)
-    
-    y = BOARD_SIZE - 1
-    while y >= 0:
-        x = 0
-        row = []
-        while x < BOARD_SIZE:
-            row.append(one_poss[x][y])
-            x += 1
-        print row
-        y -= 1
-    print "\n"
-"""
