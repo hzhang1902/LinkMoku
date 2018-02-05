@@ -51,7 +51,6 @@ class Minimax:
                     print best_move_e
                     print best_value
                     return best_move_e
-                    break
                 if max_value > alpha:
                     alpha = max_value
                     best_move = step
@@ -136,7 +135,7 @@ class Minimax:
 
 # in ms
 
-new_board = eh.initialize_board(BOARD_SIZE)
+new_board = eh.initialize_board()
 new_board[3][3] = 2
 new_board[3][2] = 1
 new_board[2][3] = 2

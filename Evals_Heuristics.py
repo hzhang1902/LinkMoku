@@ -3,6 +3,7 @@
 from copy import deepcopy
 
 BOARD_SIZE = 15
+LINK_LENGTH_TO_WIN = 5
 
 
 # get an empty board
@@ -41,11 +42,45 @@ def get_next_level(board, c_player):
         while index_x < BOARD_SIZE:
             if board[index_x][index_y] == 0:
                 imaginary_board = deepcopy(board)
-                imaginary_board[index_x][index_y] = c_player
-                all_poss.append(imaginary_board)
+                if apply_heuristics(imaginary_board, Stone(index_x, index_y, c_player)):
+                    imaginary_board[index_x][index_y] = c_player
+                    all_poss.append(imaginary_board)
             index_x += 1
         index_y += 1
     return all_poss
+
+
+def apply_heuristics(old_board, stone):
+
+    # discard possibilities with manhattan distance to nearest existing stone > 4
+    stone_within_area = False
+    min_x = 1 - LINK_LENGTH_TO_WIN
+    max_x = LINK_LENGTH_TO_WIN
+    min_y = 1 - LINK_LENGTH_TO_WIN
+    max_y = LINK_LENGTH_TO_WIN
+    if stone.x + min_x < 0:
+        min_x = 0 - stone.x
+    if stone.x + max_x >= BOARD_SIZE:
+        max_x = BOARD_SIZE - stone.x
+    if stone.y + min_y < 0:
+        min_y = 0 - stone.y
+    if stone.y + max_y >= BOARD_SIZE:
+        max_y = BOARD_SIZE - stone.y
+    x = min_x
+    while x < max_x:
+        y = min_y
+        while y < max_y:
+            if old_board[stone.x + x][stone.y + y] > 0:
+                stone_within_area = True
+                break
+            y += 1
+        if stone_within_area:
+            break
+        x += 1
+    if not stone_within_area:
+        return False
+
+    return True
 
 
 def link_direction(board, stone, already_linked, direction):
@@ -370,3 +405,10 @@ class Link:
 
         return True
 
+
+test_board = initialize_board()
+test_board[7][7] = 2
+idx = 0
+for poss in get_next_level(test_board, 1):
+    idx += 1
+print idx
