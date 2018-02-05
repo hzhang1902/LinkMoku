@@ -8,6 +8,7 @@ current_board = []
 BOARD_SIZE = 15
 start_time = time.time()
 
+
 class Minimax:
     
     def __init__(self, board): 
