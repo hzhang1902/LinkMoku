@@ -15,13 +15,6 @@ class Minimax:
         self.successors = []
         # print "Successfully created minimax board."
         return
-    
-    """
-    def thread_timer(self, second):
-        #time.sleep(second)
-        t = threading.Timer(9, minimax_decision)
-        t.start()
-    """
 
 
     def minimax_decision(self, current_board, c_player):
@@ -131,19 +124,4 @@ class Minimax:
             #print "calculate min value"
             #print "min_value is: " + str(min_value)
             return min_value
-
-# in ms
-
-
-def board_full(board):
-    x = 0
-    while x < BOARD_SIZE:
-        y = 0
-        while y < BOARD_SIZE:
-            if board[x][y] == 0:
-                return False
-            y += 1
-        x += 1
-    return True
-
 
