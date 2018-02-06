@@ -147,19 +147,3 @@ def board_full(board):
     return True
 
 
-# ----- initialize ------
-# set up players
-player1 = 1
-player2 = 2
-# initialize an empty board
-a_board = eh.initialize_board()
-# initialize engine
-minimax_engine = Minimax(a_board)
-# ------ input ----------
-# update the board
-a_board[7][7] = player2
-# ------ output ---------
-# decide next step and return the new_board
-next_move = minimax_engine.minimax_decision(a_board, player1)
-# get next step's stone by comparing the new_board and the old_board
-next_stone = eh.get_step(a_board, next_move)
