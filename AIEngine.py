@@ -4,6 +4,7 @@ import time
 """engine of Minimax algorithm with alpha-beta pruning"""
 
 BOARD_SIZE = 15
+TIME_LIMIT = 9.5
 
 
 class Minimax:
@@ -67,7 +68,7 @@ class Minimax:
 
     def max_value(self, current_board, alpha, beta, max_player, last_depth, MAX_DEPTH, start_time):  # get the max value of the possible moves
         #print "MAX different" + str(time.time() - start_time)
-        if time.time() - start_time > 9:
+        if time.time() - start_time > TIME_LIMIT:
             return None
         current_depth = last_depth + 1
         if current_depth >= MAX_DEPTH:
@@ -90,14 +91,14 @@ class Minimax:
                 #if max_value >= beta:
                     #return max_value
                 if max_value >= beta:
-                    break
+                    return alpha
                 #alpha = max(alpha, max_value)
             #print "calculate max value success"
             #print "max_value is: " + str(max_value)
             return max_value
 
     def min_value(self, current_board, alpha, beta, max_player, last_depth, MAX_DEPTH, start_time): # get the min value of the possible moves
-        if time.time() - start_time > 9:
+        if time.time() - start_time > TIME_LIMIT:
             return None
         min_player = 1
         if max_player == 1:
@@ -126,7 +127,7 @@ class Minimax:
                 #if min_value <= alpha:
                     #return min_value
                 if alpha >= min_value:
-                    break
+                    return beta
             #print "calculate min value"
             #print "min_value is: " + str(min_value)
             return min_value
@@ -146,26 +147,19 @@ def board_full(board):
     return True
 
 
-new_board = eh.initialize_board()
-"""
-new_board[7][7] = 2
-new_board[7][8] = 1
-new_board[8][7] = 2
-new_board[8][8] = 1
-new_board[6][6] = 2
-new_board[5][5] = 1
-new_board[9][7] = 2
-new_board[9][9] = 1
-"""
-new_board[7][7] = 2
-
-sudoku1 = Minimax(new_board)
-
-for row in new_board:
-    print row
-
-"""
-while not board_full(new_board):
-    new_board = sudoku1.minimax_decision(new_board, 1)
-    new_board = sudoku1.minimax_decision(new_board, 2)
-"""
+# ----- initialize ------
+# set up players
+player1 = 1
+player2 = 2
+# initialize an empty board
+a_board = eh.initialize_board()
+# initialize engine
+minimax_engine = Minimax(a_board)
+# ------ input ----------
+# update the board
+a_board[7][7] = player2
+# ------ output ---------
+# decide next step and return the new_board
+next_move = minimax_engine.minimax_decision(a_board, player1)
+# get next step's stone by comparing the new_board and the old_board
+next_stone = eh.get_step(a_board, next_move)
