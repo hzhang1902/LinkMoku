@@ -91,7 +91,7 @@ class Minimax:
                 #if max_value >= beta:
                     #return max_value
                 if max_value >= beta:
-                    return alpha
+                    return max_value
                 #alpha = max(alpha, max_value)
             #print "calculate max value success"
             #print "max_value is: " + str(max_value)
@@ -127,7 +127,7 @@ class Minimax:
                 #if min_value <= alpha:
                     #return min_value
                 if alpha >= min_value:
-                    return beta
+                    return min_value
             #print "calculate min value"
             #print "min_value is: " + str(min_value)
             return min_value
