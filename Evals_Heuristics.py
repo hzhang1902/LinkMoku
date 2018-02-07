@@ -209,18 +209,14 @@ def link_line(board, stone, already_linked, direction):
 
     # a double closed link
     if num_o_player_stone > 1:
-        return None
+        if len(line) >= 5:
+            return Link(line, "close")
+        else:
+            return None
     elif num_o_player_stone > 0:
         return Link(line, "close")
     else:
         return Link(line, "open")
-
-
-def contains_stone(a_list, stone):
-    for a_stone in a_list:
-        if a_stone.__eq__(stone):
-            return True
-    return False
 
 
 # get a list of links given a board and a stone
@@ -252,7 +248,7 @@ def get_links(board, stone, already_linked):
         added += 1
         links.append(link)
 
-    if added <= 0:
+    if added == 0:
         if stone.x + 1 < BOARD_SIZE and \
                 stone.y + 1 < BOARD_SIZE and \
                 board[stone.x + 1][stone.y + 1] == 0:
@@ -414,8 +410,8 @@ def evaluate_value(board, c_player):
     print "p4 =", p4
     print "p5 =", p5
     """
-    eval1 = 3 * (y1 + 10*x2 + 100*x3 + 500*x4 + 10000*x5) + (x1 + 10*y2 + 100*y3 + 500*y4 + 10000*y5) \
-        - 2 * (3 * (p1 + 10*o2 + 100*o3 + 500*o4 + 10000*o5) + (o1 + 10*p2 + 100*p3 + 500*p4 + 10000*p5))
+    eval1 = 3 * (y1 + 10*x2 + 100*x3 + 500*x4) + 10000*x5 + (x1 + 10*y2 + 100*y3 + 500*y4 + 10000*y5) \
+        - 2 * (3 * (p1 + 10*o2 + 100*o3 + 500*o4) + 10000*o5 + (o1 + 10*p2 + 100*p3 + 500*p4 + 10000*p5))
     return eval1
 
 

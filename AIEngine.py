@@ -19,7 +19,6 @@ class Minimax:
 
     def minimax_decision(self, current_board, c_player):
         start_time = time.time()
-        print "deciding..."
         infinity = float('inf')
         MAX_DEPTH = 1
         D_LIMIT = 4
@@ -40,11 +39,7 @@ class Minimax:
                 current_depth = 0
                 max_value = self.min_value(step, alpha, beta, c_player, current_depth, MAX_DEPTH, start_time)
                 if max_value is None:
-                    print "timeout, depth =", MAX_DEPTH
-                    print "best_move"
-                    for row in best_move_e:
-                        print row
-                    print best_value
+                    # print best_value
                     return best_move_e
                 if max_value > alpha:
                     alpha = max_value
@@ -53,10 +48,7 @@ class Minimax:
             best_value = alpha
             MAX_DEPTH += 1
 
-        print "best_move"
-        for row in best_move_e:
-            print row
-        print best_value
+        # print best_value
         return best_move_e
 
     def max_value(self, current_board, alpha, beta, max_player, last_depth, MAX_DEPTH, start_time):  # get the max value of the possible moves
