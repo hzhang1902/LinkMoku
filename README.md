@@ -1,8 +1,6 @@
-# cs4341_Proj_1
+# LinkMoku
 
-Team name: GGboy
-
-Team members: Haofan Zhang, Ziyang Yu, Yaofeng Wang
+Team: Haofan Zhang, Ziyang Yu, Yaofeng Wang
 
 
 This is a minimax algorithm with alpha-beta pruning 
@@ -26,6 +24,7 @@ factor of how good a player is.
 3. Run with "python GGboy.py"
 
 #### Evaluation function
+```
 X1: The number single stones which is not connected with any 
 of my other stones, and also not neighboring any other of the 
 opponent's stones
@@ -59,10 +58,11 @@ O1-O5: same as X1-X5 but in opponent's perspective
 
 P1-P5: same as Y1-Y5 but in opponent's perspective
 
-<p>E(board) = 3 * (y1 + 10*x2 + 100*x3 + 500*x4) + 10000*x5 + (x1 + 10*y2 + 100*y3 + 500*y4 + 10000*y5)<br \>
-- 2 * (3 * (p1 + 10*o2 + 100*o3 + 500*o4) + 10000*o5 + (o1 + 10*p2 + 100*p3 + 500*p4 + 10000*p5))</p>
+E(board) = 3 * (y1 + 10*x2 + 100*x3 + 500*x4) + 10000*x5 + (x1 + 10*y2 + 100*y3 + 500*y4 + 10000*y5)
+- 2 * (3 * (p1 + 10*o2 + 100*o3 + 500*o4) + 10000*o5 + (o1 + 10*p2 + 100*p3 + 500*p4 + 10000*p5))
+```
 
-##### Details:
+Details:
 1. The reason to give more point for the opponent's links is to
 reduce the possibility of the program being over aggressive
 and try to accomplish something great for itself without 
@@ -75,7 +75,7 @@ is a win condition, so the program will try to make more x3s
 and give up chances on y4. But x4 is also a win condition, 
 and is easier to achieve, so if we can do x4, why bother 
 doing 3/3?
-
+``
 3. Assigning more points for y1 and p1, which seems to be odd 
 given they are closed, is to incentify the program to 
 influence the main combat area more in early game rather 
