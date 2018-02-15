@@ -1,7 +1,5 @@
 # LinkMoku
-
 Team: Haofan Zhang, Ziyang Yu, Yaofeng Wang
-
 
 This is a minimax algorithm with alpha-beta pruning 
 to play a game of Gomoku.
@@ -18,12 +16,12 @@ applying heuristics, the process will be greatly shortened,
 so how good the heuristic functions are is the deterministic 
 factor of how good a player is.
 
-#### To run the code
+## To run the code
 1. Install Python 2.7
 2. Go to source code directory with command line
 3. Run with "python GGboy.py"
 
-#### Evaluation function
+## Evaluation function
 ```
 X1: The number single stones which is not connected with any 
 of my other stones, and also not neighboring any other of the 
@@ -63,6 +61,7 @@ E(board) = 3 * (y1 + 10*x2 + 100*x3 + 500*x4) + 10000*x5 + (x1 + 10*y2 + 100*y3 
 ```
 
 Details:
+
 1. The reason to give more point for the opponent's links is to
 reduce the possibility of the program being over aggressive
 and try to accomplish something great for itself without 
@@ -75,13 +74,13 @@ is a win condition, so the program will try to make more x3s
 and give up chances on y4. But x4 is also a win condition, 
 and is easier to achieve, so if we can do x4, why bother 
 doing 3/3?
-``
+
 3. Assigning more points for y1 and p1, which seems to be odd 
 given they are closed, is to incentify the program to 
 influence the main combat area more in early game rather 
 than escaping from the opponent to keep an open x1. 
 
-#### Heuristics
+## Heuristics
 1. Avoid expanding all possibilities which the new stone is 
 more than 4 manhattan distance away from any other stones
 This is because they will not affect anyone trying to do a 
@@ -91,7 +90,7 @@ This is because they will not affect anyone trying to do a
 have enough time. It will be super strategic if we did so, 
 pretty unfortunate.
 
-#### Results
+## Results
 We started by creating half finished games
 and let it decide which step to take, and 
 see if it differs from us human. It is very sharp at 
