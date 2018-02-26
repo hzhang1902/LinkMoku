@@ -43,13 +43,13 @@ def writeMove(colum, row):
 
 
 def letter2Int(letter):
+    upper_letter = letter.upper()
     letters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O"]
     i = 0
     for l in letters:
-        if(letter == l):
+        if(upper_letter == l):
             return i
         i += 1
-
 
 def Int2Letter(number):
     letters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O"]
